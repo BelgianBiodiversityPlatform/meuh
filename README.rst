@@ -10,4 +10,9 @@ It has the following design goals:
 - To provide human-friendly and machine-friendly output.
 - To support large data volumes.
 
+Status
+------
+
+In heavy development, nothing usable yet.
+
 .. _Darwin Core Archive: http://en.wikipedia.org/wiki/Darwin_Core_Archive
