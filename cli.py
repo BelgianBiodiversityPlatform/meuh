@@ -9,7 +9,7 @@ def parse_arguments(cli_args, err):
                                out=err, err=err)
     
     parser.add_argument("config_file",
-                        help="Meuh config file. An example can be found in sample_config.py",
+                        help="Meuh config file.",
                         type=argparse.FileType('r'))
             
     parser.add_argument("data_file", help="The Dwc-A file you want to analyze.",
@@ -19,4 +19,6 @@ def parse_arguments(cli_args, err):
 
 
 def main(argv, out=sys.stderr, err=sys.stderr):
-    arguments = parse_arguments(argv, err) 
+    arguments = parse_arguments(argv[1:], err)
+
+    return 0
