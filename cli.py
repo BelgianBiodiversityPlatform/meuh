@@ -2,6 +2,21 @@ import sys
 import argparse
 
 from argparse_out import ArgumentParserOut
+from meuh.engine import MeuhEngine
+
+
+class BadConfigFileException(Exception):
+    pass
+
+
+def _load_configuration(config_file_path):
+    loc = {}
+    exec(config_file_path.read(), globals(), loc)
+    
+    try:
+        return loc['MeuhConfig']
+    except KeyError:
+        raise BadConfigFileException("MeuhConfig variable not found in configuration file.")
 
 
 def parse_arguments(cli_args, err):
@@ -20,5 +35,10 @@ def parse_arguments(cli_args, err):
 
 def main(argv, out=sys.stderr, err=sys.stderr):
     arguments = parse_arguments(argv[1:], err)
+
+    config_obj = _load_configuration(arguments.config_file)
+
+    with MeuhEngine(config=config_obj, dwca=arguments.data_file) as engine:
+        engine.run(out)
 
     return 0
