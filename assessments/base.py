@@ -1,9 +1,14 @@
+import types
 from abc import ABCMeta, abstractmethod
 
 from .logging import AssessmentLog
 
 
-class IndividualRowAssessment():
+def _hasmethod(obj, name):
+    return hasattr(obj, name) and type(getattr(obj, name)) == types.MethodType
+
+
+class Assessment():
     # TODO: find a mechanism so assessment are easily testable autonomously
 
     __metaclass__ = ABCMeta
@@ -22,6 +27,11 @@ class IndividualRowAssessment():
     # Subclasses should call this contstructor. They'll get a logger
     def __init__(self):
         self.logger = AssessmentLog()
+
+    # Document adn test this mechanism
+    @property
+    def assess_each_line(self):
+        return _hasmethod(self, 'assess_line')
 
 # TODO: Document ho to create new tests
 # TODO: Test that subclasses properly act (i.e., they have a logger, ...)

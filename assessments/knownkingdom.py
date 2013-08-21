@@ -1,10 +1,10 @@
 from dwca.darwincore.utils import qualname as qn
 
-from meuh.assessments.base import IndividualRowAssessment
+from meuh.assessments.base import Assessment
 from meuh.assessments.logging import MessageLevels, MessageTypes
 
 
-class KnownKingdomAssessment(IndividualRowAssessment):
+class KnownKingdomAssessment(Assessment):
     ACCEPTED = {'cavalier-smith': set(['animalia', 'fungi', 'plantae', 'chromista', 'protozoa',
                                        'bacteria']),
                 'whose_1977': set(['eubacteria', 'archaebacteria', 'protista', 'plantae', 'fungi',
@@ -40,3 +40,6 @@ class KnownKingdomAssessment(IndividualRowAssessment):
         else:
             self.logger.log("Archive core should be of Occurrence type.", MessageTypes.APPLICABILITY, MessageLevels.ERROR)
             return False
+
+    def assess_line(self, line):
+        pass
