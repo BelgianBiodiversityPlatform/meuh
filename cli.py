@@ -39,6 +39,6 @@ def main(argv, out=sys.stderr, err=sys.stderr):
     config_obj = _load_configuration(arguments.config_file)
 
     with MeuhEngine(config=config_obj, dwca=arguments.data_file) as engine:
-        engine.run(out)
+        engine.run(err)
 
     return 0

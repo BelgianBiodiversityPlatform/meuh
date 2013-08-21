@@ -3,7 +3,7 @@
 from assessments import knownkingdom
 
 MeuhConfig = {
-    'tests': [knownkingdom.KnownKingdomAssessment({'classification': 'all'}),
-              #coordinatesform.CoordinatesFormTest(),
-              ]
+    'assessments': [knownkingdom.KnownKingdomAssessment({'classification': 'all'}),
+                    #coordinatesform.CoordinatesFormTest(),
+                    ]
 }

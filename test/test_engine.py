@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from meuh.test.helpers import sample_data_path, sample_config_path
+from meuh.test.helpers import sample_data_path
 from meuh.engine import MeuhEngine
 
 
@@ -13,9 +13,7 @@ class TestEngine(unittest.TestCase):
 
         num_files_before = len(os.listdir('.'))
 
-        meuh_config = {
-        'tests': []
-        }
+        meuh_config = {'assessments': []}
 
         with MeuhEngine(config=meuh_config, dwca=self.SAMPLE_ARCHIVE_PATH):
             # After instanciating, DwCAReader should have created a temporary dir.
@@ -34,4 +32,4 @@ class TestEngine(unittest.TestCase):
 
         # Other tests: to define what should be refused and how, and implement them
 
-        # TODO: Implement 
+        # TODO: Implement

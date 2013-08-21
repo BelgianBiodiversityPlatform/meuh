@@ -13,6 +13,25 @@ def _str_to_args(str):
 class TestCLI(unittest.TestCase):
     SAMPLE_ARCHIVE_PATH = sample_data_path('dwca-simple-test-archive.zip')
 
+    def test_engine_output_stderr(self):
+        err_stream = StringIO()
+        out_stream = StringIO()
+
+        config_file = sample_config_path('valid.py')
+
+        # Provide both
+        args = _str_to_args("./meuh {config} {dwca}".format(config=config_file,
+                                                            dwca=self.SAMPLE_ARCHIVE_PATH))
+        main(args, out=out_stream, err=err_stream)
+
+        err = err_stream.getvalue()
+        out = out_stream.getvalue()
+
+        self.assertTrue("Engine running..." in err)
+        self.assertTrue("Engine finished execution." in err)
+        self.assertFalse("Engine running..." in out)
+        self.assertFalse("Engine finished execution." in out)
+
     def test_usage_on_stderr(self):
         """Assert usage information is displayed to stderr and not stdout(reserved for results)."""
 
@@ -67,7 +86,7 @@ class TestCLI(unittest.TestCase):
                                                             dwca=self.SAMPLE_ARCHIVE_PATH))
         rc = main(args, out=out_stream, err=err_stream)
         
-        self.assertEqual("", err_stream.getvalue())
+        self.assertTrue("usage: meuh" not in err_stream.getvalue())
         self.assertEqual(0, rc)
 
 

@@ -1,6 +1,7 @@
 from dwca.darwincore.utils import qualname as qn
 
 from meuh.assessments.base import IndividualRowAssessment
+from meuh.assessments.logging import MessageLevels, MessageTypes
 
 
 class KnownKingdomAssessment(IndividualRowAssessment):
@@ -17,8 +18,6 @@ class KnownKingdomAssessment(IndividualRowAssessment):
         super(KnownKingdomAssessment, self).__init__()
         
         asked_classification = testoptions['classification']
-        # init_msg = "Configured to use " + asked_classification + ' classification.'
-        # self.log_init_message(init_msg, LogLevels.INFO)
 
         if asked_classification == 'all':
             # We have to built a set doing the union of specific classifications
@@ -28,12 +27,16 @@ class KnownKingdomAssessment(IndividualRowAssessment):
         else:
             self._currently_accepted = self.ACCEPTED[asked_classification]
 
+        msg = "Configured to use {cla} classification".format(cla=asked_classification)
+        self.logger.log(msg, MessageTypes.INIT, MessageLevels.INFO)
+
     def applicable_to_archive(self, archive):
-        # Applicable only for occurrence_based archives
         if archive.core_rowtype == qn('Occurrence'):
-            if archive.core_contains_term(qn('Kingdom')):
-                return (True, True)  # Second true is ignored, just here to avoid an error
+            if archive.core_contains_term(qn('kingdom')):
+                return True
             else:
-                return (False, "Core should contain the 'Kingdom' term")
+                self.logger.log("Core should contain the 'kingdom' term", MessageTypes.APPLICABILITY, MessageLevels.ERROR)
+                return False
         else:
-            return (False, 'Archive core should be of Occurrence type.')
+            self.logger.log("Archive core should be of Occurrence type.", MessageTypes.APPLICABILITY, MessageLevels.ERROR)
+            return False
