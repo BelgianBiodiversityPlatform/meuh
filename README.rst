@@ -5,9 +5,9 @@ Meuh is a tool to perform data quality assessments on `Darwin Core Archive`_ (Dw
 
 It has the following design goals:
 
-- To be extensible and allow development of new test mechanisms.
-- To be UI-independent easiy to integrate in a wide range of data flows: it's currently implemented as a command-line tool but should be easily integrable into web/GUI based tools.
-- To provide human-friendly and machine-friendly output.
+- To be extensible and allow development of new assessment mechanisms by writing a simple Python class.
+- To be UI-independent easiy to integrate in a wide range of data flows: command-line tool, web site/services, GUI, batch processing, ...
+- Easily extensible output formats (currently JSON for machines and HTML for human beings)
 - To support large data volumes.
 
 Status
