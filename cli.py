@@ -29,16 +29,20 @@ def parse_arguments(cli_args, err):
             
     parser.add_argument("data_file", help="The Dwc-A file you want to analyze.",
                         type=argparse.FileType('r'))
+
+    # TODO: make choices list dynamic (follow available output drivers)
+    parser.add_argument("--report-format", choices=['json', 'html'], default='json')
     
     return parser.parse_args(cli_args)
 
 
-def main(argv, out=sys.stderr, err=sys.stderr):
+def main(argv, out=sys.stdout, err=sys.stderr):
     arguments = parse_arguments(argv[1:], err)
 
     config_obj = _load_configuration(arguments.config_file)
 
     with MeuhEngine(config=config_obj, dwca=arguments.data_file) as engine:
-        engine.run(err)
+        report = engine.run(err)
+        out.write(report.format(arguments.report_format))
 
     return 0

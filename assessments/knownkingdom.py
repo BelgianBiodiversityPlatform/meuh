@@ -21,11 +21,12 @@ class KnownKingdomAssessment(Assessment):
 
         if asked_classification == 'all':
             # We have to built a set doing the union of specific classifications
-            self._currently_accepted = set()
+            self._accepted = set()
+            
             for k, v in self.ACCEPTED.items():
-                self._currently_accepted = self._currently_accepted.union(v)
+                self._accepted = self._accepted.union(v)
         else:
-            self._currently_accepted = self.ACCEPTED[asked_classification]
+            self._accepted = self.ACCEPTED[asked_classification]
 
         msg = "Configured to use {cla} classification".format(cla=asked_classification)
         self.logger.log(msg, MessageTypes.INIT, MessageLevels.INFO)
@@ -42,4 +43,6 @@ class KnownKingdomAssessment(Assessment):
             return False
 
     def assess_line(self, line):
-        pass
+        kingdom = line.data[qn('kingdom')].lower().strip("\n\t")
+        if len(kingdom) > 0 and kingdom not in self._accepted:
+            self.logger.log("'{kingdom}' not in accepted list.".format(kingdom=kingdom))
